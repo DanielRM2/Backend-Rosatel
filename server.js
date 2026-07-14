@@ -162,10 +162,10 @@ app.get("/productos", (req, res) => {
 
   let query = `
     SELECT p.*, 
-    GROUP_CONCAT(c.Nombre SEPARATOR ', ') AS Categorias
-    FROM Productos p
-    LEFT JOIN ProductoCategoria pc ON p.IdProducto = pc.IdProducto
-    LEFT JOIN Categorias c ON pc.IdCategoria = c.IdCategoria
+    GROUP_CONCAT(c.Nombre SEPARATOR ', ') AS categorias
+    FROM productos p
+    LEFT JOIN productocategoria pc ON p.IdProducto = pc.IdProducto
+    LEFT JOIN categorias c ON pc.IdCategoria = c.IdCategoria
   `;
 
   const params = [];
@@ -174,8 +174,8 @@ app.get("/productos", (req, res) => {
     query += `
       WHERE p.IdProducto IN (
         SELECT pc.IdProducto 
-        FROM ProductoCategoria pc
-        JOIN Categorias c ON pc.IdCategoria = c.IdCategoria
+        FROM productocategoria pc
+        JOIN categorias c ON pc.IdCategoria = c.IdCategoria
         WHERE c.Nombre = ?
       )
     `;
@@ -198,7 +198,7 @@ app.get("/productos", (req, res) => {
    CATEGORIAS
 ========================= */
 app.get("/categorias", (req, res) => {
-  connection.query("SELECT * FROM Categorias", (err, results) => {
+  connection.query("SELECT * FROM categorias", (err, results) => {
     if (err) {
       return res.status(500).send("Error al obtener categorías");
     }
@@ -224,10 +224,10 @@ app.get("/buscar", (req, res) => {
 
   const query = `
     SELECT p.*, 
-    GROUP_CONCAT(c.Nombre SEPARATOR ', ') AS Categorias
-    FROM Productos p
-    LEFT JOIN ProductoCategoria pc ON p.IdProducto = pc.IdProducto
-    LEFT JOIN Categorias c ON pc.IdCategoria = c.IdCategoria
+    GROUP_CONCAT(c.Nombre SEPARATOR ', ') AS categorias
+    FROM productos p
+    LEFT JOIN productocategoria pc ON p.IdProducto = pc.IdProducto
+    LEFT JOIN categorias c ON pc.IdCategoria = c.IdCategoria
     WHERE p.Nombre LIKE ? OR p.Tipo LIKE ? OR c.Nombre LIKE ?
     GROUP BY p.IdProducto
   `;
@@ -247,9 +247,6 @@ app.get("/buscar", (req, res) => {
 
 /* =========================
    CHATBOT (deshabilitado)
-========================= */
-// Se eliminó toda la lógica del chatbot para evitar llamadas a servicios externos.
-
 
 
 

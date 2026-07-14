@@ -1,21 +1,19 @@
-const { Client } = require('pg');
+const mysql = require("mysql2");
 
-// Reemplaza el string de abajo con el 'External Database URL' de Render
-const connectionString = "postgresql://dbrosatel_user:cIECNB40sr6Va3GTsqBuBDekt8inXtHU@dpg-d9aohpjtqb8s739l0lg0-a.oregon-postgres.render.com/dbrosatel";
 
-const client = new Client({
-  connectionString: connectionString,
-  ssl: {
-    rejectUnauthorized: false // Esto es obligatorio para conectarse a Render desde afuera
-  }
+const connection = mysql.createConnection({
+  host: "bxkdczq5i3bs7nbdrlvg-mysql.services.clever-cloud.com",
+  user: "umwtxaoqlooelqc7",
+  password: "Nb42rWYvq3I81LCtoHEE",
+  database: "bxkdczq5i3bs7nbdrlvg",
 });
 
-client.connect((err) => {
-  if (err) {
-    console.error("Error conectando a la base de datos PostgreSQL:", err.stack);
+connection.connect((err) => { 
+  if (err) { 
+    console.error("Error conectando a la base de datos: " + err.stack); 
     return;
   }
-  console.log("Conectado exitosamente a PostgreSQL en Render");
+  console.log("Conectado a la base de datos");
 });
 
-module.exports = client;
+module.exports = connection;
